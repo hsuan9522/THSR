@@ -6,22 +6,14 @@
 
 ## 執行
 
-本程式由python語言所寫成，因此必須先安裝python才能夠使用。官方下載網址[點這裡](https://www.python.org/downloads/release/python-381/)
+來源：[https://github.com/BreezeWhite/THSR-Ticket](https://github.com/BreezeWhite/THSR-Ticket)
 
-### 方法一 （快速）
-在已經有安裝好python的環境下，執行以下指令
-``` bash
-pip install git+https://github.com/BreezeWhite/THSR-Ticket.git
-
-# 執行
-thsr-ticket
-```
-
-### 方法二
+### 方法
 首先先將程式碼下載到本機，執行以下指令或是直接按右上方的下載按鈕
 
 ```
-git clone https://github.com/BreezeWhite/THSR-Ticket.git
+
+git clone https://github.com/hsuan9522/THSR.git
 ```
 
 再來進入到資料夾中
@@ -39,7 +31,8 @@ python -m pip install -r requirements.txt
 最後執行程式
 
 ```
-python thsr_ticket/main.py
+python thsr_ticket/goto.py #去程
+python thsr_ticket/back.py #回程
 ```
 
 
@@ -48,38 +41,7 @@ python thsr_ticket/main.py
 
 本程式依舊有許多尚未完成的部分，僅具備基本訂購的功能，若是僅需要訂購成人票、且無特殊需求者，此程式對您而言是加速訂購流程的方便小工具。不符合以上描述者，目前仍建議使用官方網頁進行訂購。
 
-#### 提供功能
-
-- [x] 選擇啟程、到達站
-- [x] 選擇出發日期、時間
-- [x] 選擇班次
-- [x] 選擇**"成人"**票數
-- [x] 輸入驗證碼
-- [x] 輸入身分證字號
-- [x] 輸入手機號碼
-- [x] 保留此次輸入紀錄，下次可快速選擇此次紀錄
-
-#### 未提供功能
-
-以下功能為未提供輸入的選項，但程式具備相關功能，可依照自身需求、對程式進行修改
-
-- [ ] 選擇車廂種類(標準/商務)
-- [ ] 座位喜好(靠窗/走道)
-- [ ] 訂位方式(依時間搜尋車次/直接輸入車次號碼)
-- [ ] 輸入孩童/愛心/敬老/學生優惠票數
-- [ ] 僅顯示早鳥優惠票
-
-#### 未完成功能
-
-- [ ] 重新產生認證碼
-- [ ] 語音播放認證碼
-- [ ] 重新查詢車次
-- [ ] 輸入護照號碼
-- [ ] 輸入市話
-- [ ] 輸入電子郵件
-- [ ] 會員購票
-
-#### hsuan
+#### 可變動變數
 - #[hs_身份證] - 必填
 - #[hs_電話]
 - #[hs_去程時間]
