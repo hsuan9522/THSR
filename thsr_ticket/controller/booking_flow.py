@@ -21,11 +21,11 @@ class BookingFlow:
         self.error_feedback = ErrorFeedback()
         self.show_error_msg = ShowErrorMsg()
 
-    def run(self) -> Response:
-        self.show_history()
+    def run(self, hs_type = 1) -> Response:
+        # self.show_history()
 
         # First page. Booking options
-        book_resp, book_model = FirstPageFlow(client=self.client, record=self.record).run()
+        book_resp, book_model = FirstPageFlow(client=self.client, record=self.record).run(hs_type)
         if self.show_error(book_resp.content):
             return book_resp
 

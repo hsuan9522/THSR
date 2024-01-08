@@ -24,12 +24,19 @@ class FirstPageFlow:
         self.client = client
         self.record = record
 
-    def run(self) -> Tuple[Response, BookingModel]:
+    def run(self, hs_type) -> Tuple[Response, BookingModel]:
         # First page. Booking options
         print('請稍等...')
+        self.hs_type = hs_type
         book_page = self.client.request_booking_page().content
         img_resp = self.client.request_security_code_img(book_page).content
         page = BeautifulSoup(book_page, features='html.parser')
+
+        print('------------------')
+        print(f"起:{self.get_station_name(int(self.select_station('啟程')))}")
+        print(f"到:{self.get_station_name(int(self.select_station('到達', default_value=StationMapping.Zuouing.value)))}")
+        print(f"時間:{self.select_date('出發')}, {self.select_time('啟程')}")
+        print('------------------')
 
         book_model = BookingModel(
             start_station=self.select_station('啟程'),
@@ -59,42 +66,57 @@ class FirstPageFlow:
         ):
             return station
 
-        print(f'選擇{travel_type}站：')
-        for station in StationMapping:
-            print(f'{station.value}. {station.name}')
-
-        return int(
-            input(f'輸入選擇(預設: {default_value})：')
-            or default_value
-        )
+        # print(f'選擇{travel_type}站：')
+        # for station in StationMapping:
+        #     print(f'{station.value}. {station.name}')
+        if self.hs_type == 2:
+            if travel_type == '啟程':
+                return int(11)
+            else:
+                return int(1)
+        else:
+            if travel_type == '啟程':
+                return int(1)
+            else:
+                return int(11)
+        
+        # return int(
+        #     input(f'輸入選擇(預設: {default_value})：')
+        #     or default_value
+        # )
 
     def select_date(self, date_type: str) -> str:
-        today = date.today()
-        last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
-        print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
-        return input() or str(today)
+        # today = date.today()
+        # last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
+        # print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
+        # return input() or str(today)
+        if self.hs_type == 2:
+            return '2024-02-12'
+        else:
+            return '2024-02-01'
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
-        if self.record and (
-            time_str := {
-                '啟程': self.record.outbound_time,
-                '回程': None,
-            }.get(time_type)
-        ):
-            return time_str
+        # if self.record and (
+        #     time_str := {
+        #         '啟程': self.record.outbound_time,
+        #         '回程': None,
+        #     }.get(time_type)
+        # ):
+        #     return time_str
 
-        print('選擇出發時間：')
-        for idx, t_str in enumerate(AVAILABLE_TIME_TABLE):
-            t_int = int(t_str[:-1])
-            if t_str[-1] == "A" and (t_int // 100) == 12:
-                t_int = "{:04d}".format(t_int % 1200)  # type: ignore
-            elif t_int != 1230 and t_str[-1] == "P":
-                t_int += 1200
-            t_str = str(t_int)
-            print(f'{idx+1}. {t_str[:-2]}:{t_str[-2:]}')
+        # print('選擇出發時間：')
+        # for idx, t_str in enumerate(AVAILABLE_TIME_TABLE):
+        #     t_int = int(t_str[:-1])
+        #     if t_str[-1] == "A" and (t_int // 100) == 12:
+        #         t_int = "{:04d}".format(t_int % 1200)  # type: ignore
+        #     elif t_int != 1230 and t_str[-1] == "P":
+        #         t_int += 1200
+        #     t_str = str(t_int)
+        #     print(f'{idx+1}. {t_str[:-2]}:{t_str[-2:]}')
 
-        selected_opt = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
-        return AVAILABLE_TIME_TABLE[selected_opt-1]
+        # selected_opt = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
+        # return AVAILABLE_TIME_TABLE[selected_opt-1]
+        return '500P'
 
     def select_ticket_num(self, ticket_type: TicketType, default_ticket_num: int = 1) -> str:
         if self.record and (
@@ -116,9 +138,17 @@ class FirstPageFlow:
             TicketType.COLLEGE: '大學生',
         }.get(ticket_type)
 
-        print(f'選擇{ticket_type_name}票數（0~{MAX_TICKET_NUM}）（預設：{default_ticket_num}）')
-        ticket_num = int(input() or default_ticket_num)
+        # print(f'選擇{ticket_type_name}票數（0~{MAX_TICKET_NUM}）（預設：{default_ticket_num}）')
+        # ticket_num = int(input() or default_ticket_num)
+        ticket_num = int(default_ticket_num)
         return f'{ticket_num}{ticket_type.value}'
+    
+
+    def get_station_name(self, value):
+        for station in StationMapping:
+            if station.value == value:
+                return station.name
+        return None
 
 
 def _parse_seat_prefer_value(page: BeautifulSoup) -> str:

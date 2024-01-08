@@ -17,6 +17,12 @@ class ConfirmTicketFlow:
 
     def run(self) -> Tuple[Response]:
         page = BeautifulSoup(self.train_resp.content, features='html.parser')
+
+        print('------------------')
+        print(f"身份證:{self.set_personal_id()}")
+        print(f"電話:{self.set_phone_num()}")
+        print('------------------')
+
         ticket_model = ConfirmTicketModel(
             personal_id=self.set_personal_id(),
             phone_num=self.set_phone_num(),
@@ -29,17 +35,17 @@ class ConfirmTicketFlow:
         return resp, ticket_model
 
     def set_personal_id(self) -> str:
-        if self.record and (personal_id := self.record.personal_id):
-            return personal_id
-
-        return input(f'輸入身分證字號：\n')
+        # if self.record and (personal_id := self.record.personal_id):
+            # return personal_id
+        # return input(f'輸入身分證字號：\n')
+        return ''
 
     def set_phone_num(self) -> str:
-        if self.record and (phone_num := self.record.phone):
-            return phone_num
+        # if self.record and (phone_num := self.record.phone):
+            # return phone_num
 
-        if phone_num := input('輸入手機號碼（預設：""）：\n'):
-            return phone_num
+        # if phone_num := input('輸入手機號碼（預設：""）：\n'):
+        #     return phone_num
         return ''
 
 
