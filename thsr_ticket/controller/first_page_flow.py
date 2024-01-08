@@ -71,14 +71,14 @@ class FirstPageFlow:
         #     print(f'{station.value}. {station.name}')
         if self.hs_type == 1:
             if travel_type == '啟程':
-                return int(1)
+                return int(1) #[hs_去程起點]
             else:
-                return int(11)
+                return int(11) #[hs_去程抵達]
         else:
             if travel_type == '啟程':
-                return int(11)
+                return int(11) #[hs_回程起點]
             else:
-                return int(1)
+                return int(1) #[hs_回程抵達]
         
         # return int(
         #     input(f'輸入選擇(預設: {default_value})：')
@@ -91,9 +91,9 @@ class FirstPageFlow:
         # print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
         # return input() or str(today)
         if self.hs_type == 1:
-            return '2024-02-01'
+            return '2024-02-01' #[hs_去程時間]
         else:
-            return '2024-02-12'
+            return '2024-02-12' #[hs_回程時間]
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
         # if self.record and (
@@ -117,9 +117,9 @@ class FirstPageFlow:
         # selected_opt = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
         # return AVAILABLE_TIME_TABLE[selected_opt-1]
         if self.hs_type == 1:
-            return '500P'
+            return '500P' #[hs_去程時間點]
         else:
-            return '500P'
+            return '500P' #[hs_回程時間點]
 
     def select_ticket_num(self, ticket_type: TicketType, default_ticket_num: int = 1) -> str:
         if self.record and (
