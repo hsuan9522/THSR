@@ -69,16 +69,16 @@ class FirstPageFlow:
         # print(f'選擇{travel_type}站：')
         # for station in StationMapping:
         #     print(f'{station.value}. {station.name}')
-        if self.hs_type == 2:
+        if self.hs_type == 1:
             if travel_type == '啟程':
-                return int(11)
-            else:
                 return int(1)
+            else:
+                return int(11)
         else:
             if travel_type == '啟程':
-                return int(1)
-            else:
                 return int(11)
+            else:
+                return int(1)
         
         # return int(
         #     input(f'輸入選擇(預設: {default_value})：')
@@ -90,10 +90,10 @@ class FirstPageFlow:
         # last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
         # print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
         # return input() or str(today)
-        if self.hs_type == 2:
-            return '2024-02-12'
-        else:
+        if self.hs_type == 1:
             return '2024-02-01'
+        else:
+            return '2024-02-12'
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
         # if self.record and (
@@ -116,7 +116,10 @@ class FirstPageFlow:
 
         # selected_opt = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
         # return AVAILABLE_TIME_TABLE[selected_opt-1]
-        return '500P'
+        if self.hs_type == 1:
+            return '500P'
+        else:
+            return '500P'
 
     def select_ticket_num(self, ticket_type: TicketType, default_ticket_num: int = 1) -> str:
         if self.record and (

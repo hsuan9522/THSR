@@ -8,7 +8,7 @@ from thsr_ticket.controller.booking_flow import BookingFlow
 
 def main():
     flow = BookingFlow()
-    flow.run()
+    flow.run(1)
 
 
 if __name__ == "__main__":
